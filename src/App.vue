@@ -13,7 +13,6 @@
 body {
   background: #040210;
   background-image: url("./assets/texture.png");
-  background-repeat: repeat-y;
-  background-size: cover;
+  background-repeat: repeat;
 }
 </style>
