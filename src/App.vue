@@ -10,4 +10,10 @@
   margin: 0;
   padding: 0;
 }
+::-webkit-scrollbar {
+    display: none;
+}
+a {
+  text-decoration: none;
+}
 </style>
