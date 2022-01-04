@@ -15,14 +15,31 @@
       </ul>
       <div class="window">
         <div class="window-left">
-          <div class="container-name">
-            <p class="name">Fabien</p>
-            <p class="name">Rivet</p>
-          </div>
-          <div class="container-portfolio">
-            <span class="portfolio"
-              >Portfolio <i class="fas fa-book-open book"></i
-            ></span>
+          <div class="window-wrapper">
+            <div class="presentation">
+              <div class="presentation-front">
+                <div class="container-name">
+                  <p class="name">Fabien</p>
+                  <p class="name">Rivet</p>
+                  <img
+                    src="../assets/portfolio.png"
+                    alt=""
+                    class="portfolio-icon"
+                  />
+                </div>
+                <div class="container-portfolio">
+                  <span class="portfolio">Développeur web</span>
+                </div>
+              </div>
+              <div class="presentation-back">
+                <a href="" download="CV_Fabien_Rivet.pdf"
+                  ><img src="../assets/cv2.png" alt="" class="cv-icon"
+                /></a>
+                <a href="mailto:byfabe@gmail.com" target="_blank"
+                  ><img src="../assets/email.png" alt="" class="mail-icon"
+                /></a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="card-container" @mouseover="play()" @mouseleave="pause()">
@@ -34,7 +51,6 @@
               </div>
               <div class="card-back">
                 <a href="http://memento.cool/" target="_blank">
-                  <!-- <img src="../assets/mementojpg.jpg" alt="" /> -->
                   <video loop="true" muted="true">
                     <source src="../assets/memento.mp4" type="video/mp4" />
                   </video>
@@ -53,11 +69,6 @@
                   href="https://objective-poincare-859034.netlify.app/"
                   target="_blank"
                 >
-                  <!-- <img
-                    src="../assets/honfleurjpg.jpg"
-                    alt=""
-                    class="honfleur-img"
-                  /> -->
                   <video loop="true" muted="true">
                     <source src="../assets/honfleur.mp4" type="video/mp4" />
                   </video>
@@ -68,12 +79,11 @@
           <div class="card-wrapper">
             <div class="card">
               <div class="card-front">
-                <h2>En cours...</h2>
+                <h2 class="oc-title">Projets OpenClassRooms</h2>
+                <p>Réalisations effectuées durant ma formation avec OpenClassRooms.</p>
               </div>
               <div class="card-back">
-                <!-- <a href="">
-                  <img src="../assets/mementojpg.jpg" alt="" />
-                </a> -->
+                <a href="https://github.com/Zheyn"><img src="../assets/githubOC.jpg" alt=""></a>
               </div>
             </div>
           </div>
@@ -82,11 +92,7 @@
               <div class="card-front">
                 <h2>En cours...</h2>
               </div>
-              <div class="card-back">
-                <!-- <a href="">
-                  <img src="../assets/mementojpg.jpg" alt="" />
-                </a> -->
-              </div>
+              <div class="card-back"></div>
             </div>
           </div>
         </div>
@@ -104,13 +110,13 @@ export default {
     play() {
       let video = document.querySelectorAll("video");
       for (let i = 0; i < video.length; i++) {
-        video[i].play()
+        video[i].play();
       }
     },
     pause() {
       let video = document.querySelectorAll("video");
       for (let i = 0; i < video.length; i++) {
-        video[i].pause()
+        video[i].pause();
       }
     },
   },
@@ -136,31 +142,89 @@ video {
     display: flex;
     width: 80%;
     height: 70%;
-    //border-radius: 5px;
     & .window-left {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-direction: column;
       width: 50%;
       height: 100%;
-      background: #f25252;
       mix-blend-mode: darken;
       margin-right: 5%;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
-        rgb(51, 51, 51) 0px 0px 0px 3px;
-      & .container-name {
+      & .window-wrapper {
+        position: relative;
+        height: 100%;
+        min-height: 50%;
+        perspective: 2000px;
+        perspective-origin: top;
+      }
+      & .window-wrapper:hover .presentation {
+        transform: rotateY(180deg);
+      }
+      & .presentation {
+        position: relative;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+      }
+      & .presentation-front,
+      .presentation-back {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
+          rgb(51, 51, 51) 0px 0px 0px 3px;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+      & .presentation-front {
         display: flex;
-        flex-direction: column;
+        justify-content: space-around;
         align-items: center;
+        flex-direction: column;
+        background: #f25252;
+      }
+      & .presentation-back {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+        background: #f25252;
+        transform: rotateY(180deg);
+        & .mail-icon {
+          width: 11vw;
+          transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+          &:hover {
+            transform: scale(1.2);
+            transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+          }
+        }
+        & .cv-icon {
+          width: 11vw;
+          transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+          &:hover {
+            transform: scale(1.2);
+            transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+          }
+        }
+      }
+      & .container-name {
+        position: relative;
+        text-align: center;
         padding: 3%;
         border: 5px solid #f2a679;
+      }
+      & .portfolio-icon {
+        width: 55%;
+      }
+      & .portfolio-icon {
+        position: absolute;
+        bottom: -48%;
+        right: -40%;
+        transform: rotate(-20deg);
       }
       & p,
       span {
         font-family: "Righteous", cursive;
         font-size: 2.5vw;
         color: #f2a679;
+        user-select: none;
       }
     }
   }
@@ -185,7 +249,6 @@ video {
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
   }
   & .card-front,
   .card-back {
@@ -195,6 +258,7 @@ video {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
   }
   & .card-front {
     display: flex;
@@ -207,6 +271,10 @@ video {
       font-size: 2.5vw;
       color: #f2a679;
       margin-bottom: 2%;
+    }
+    & .oc-title {
+      font-size: clamp(25px, 2vw, 50px);
+      text-align: center;
     }
     & p {
       font-family: "Raleway", cursive;
@@ -225,23 +293,19 @@ video {
       height: 100%;
       object-fit: cover;
     }
-    & .honfleur-img {
-      object-position: left;
-    }
   }
 }
-.book {
-  animation: rotate-scale-down 0.65s linear both;
-}
-@keyframes rotate-scale-down {
+@keyframes animate {
   0% {
-    transform: scale(1) rotateZ(0);
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
   }
-  50% {
-    transform: scale(0.5) rotateZ(180deg);
-  }
+
   100% {
-    transform: scale(1) rotateZ(360deg);
+    transform: translateY(-1500px) rotate(720deg);
+    opacity: 0;
+    border-radius: 30%;
   }
 }
 .circles {
@@ -343,20 +407,6 @@ video {
   height: 100px;
   animation-delay: 0s;
   animation-duration: 11s;
-}
-
-@keyframes animate {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-    border-radius: 0;
-  }
-
-  100% {
-    transform: translateY(-1500px) rotate(720deg);
-    opacity: 0;
-    border-radius: 30%;
-  }
 }
 @media screen and (max-width: 1440px) {
   .container-window {
