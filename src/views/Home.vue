@@ -32,7 +32,9 @@
                 </div>
               </div>
               <div class="presentation-back">
-                <a href="" download="CV_Fabien_Rivet.pdf"
+                <a
+                  href="https://www.rivetportfolio.ovh/CV_Fabien_Rivet.pdf"
+                  download="CV_Fabien_Rivet.pdf"
                   ><img src="../assets/cv2.png" alt="" class="cv-icon"
                 /></a>
                 <a href="mailto:byfabe@gmail.com" target="_blank"
@@ -43,56 +45,31 @@
           </div>
         </div>
         <div class="card-container" @mouseover="play()" @mouseleave="pause()">
-          <div class="card-wrapper">
+          <div class="card-wrapper" v-for="project in projects" :key="project">
             <div class="card">
               <div class="card-front">
-                <h2>Memento</h2>
-                <p>Post-it animés avec Vue.js et greensock.</p>
+                <h2 :class="project.class">{{ project.title }}</h2>
+                <p>{{ project.description }}</p>
               </div>
               <div class="card-back">
-                <a href="http://memento.cool/" target="_blank">
-                  <video loop="true" muted="true">
-                    <source src="../assets/memento.mp4" type="video/mp4" />
+                <a :href="project.link" target="_blank">
+                  <img
+                    :src="require(`@/assets/${project.source}`)"
+                    alt=""
+                    v-if="project.source.includes('jpg')"
+                  />
+                  <video
+                    loop="true"
+                    muted="true"
+                    v-if="project.source.includes('mp4')"
+                  >
+                    <source
+                      :src="require(`@/assets/${project.source}`)"
+                      type="video/mp4"
+                    />
                   </video>
                 </a>
               </div>
-            </div>
-          </div>
-          <div class="card-wrapper">
-            <div class="card">
-              <div class="card-front">
-                <h2>Honfleur</h2>
-                <p>Résidence le phare avec slideshow draggable.</p>
-              </div>
-              <div class="card-back">
-                <a
-                  href="https://objective-poincare-859034.netlify.app/"
-                  target="_blank"
-                >
-                  <video loop="true" muted="true">
-                    <source src="../assets/honfleur.mp4" type="video/mp4" />
-                  </video>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="card-wrapper">
-            <div class="card">
-              <div class="card-front">
-                <h2 class="oc-title">Projets OpenClassRooms</h2>
-                <p>Réalisations effectuées durant ma formation avec OpenClassRooms.</p>
-              </div>
-              <div class="card-back">
-                <a href="https://github.com/Zheyn"><img src="../assets/githubOC.jpg" alt=""></a>
-              </div>
-            </div>
-          </div>
-          <div class="card-wrapper">
-            <div class="card">
-              <div class="card-front">
-                <h2>En cours...</h2>
-              </div>
-              <div class="card-back"></div>
             </div>
           </div>
         </div>
@@ -104,7 +81,36 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      projects: [
+        {
+          title: "youmee.",
+          description: "Chat avec socket.io, node.js et vue.js.",
+          link: "https://youmee.netlify.app/",
+          source: "youmee.mp4",
+        },
+        {
+          title: "Memento",
+          description: "Post-it animés avec Vue.js et greensock.",
+          link: "http://memento.cool/",
+          source: "memento.mp4",
+        },
+        {
+          title: "Honfleur",
+          description: "Résidence le phare avec slideshow draggable.",
+          link: "https://objective-poincare-859034.netlify.app/",
+          source: "honfleur.mp4",
+        },
+        {
+          title: "Projets OpenClassRooms",
+          description:
+            "Réalisations effectuées durant ma formation avec OpenClassRooms.",
+          link: "https://github.com/Zheyn",
+          source: "githubOC.jpg",
+          class: "oc-title",
+        },
+      ],
+    };
   },
   methods: {
     play() {
@@ -124,11 +130,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 .container-window {
   position: absolute;
   display: flex;
@@ -267,6 +268,7 @@ video {
     flex-direction: column;
     background: #3a8c75;
     & h2 {
+      text-align: center;
       font-family: "Righteous", cursive;
       font-size: 2.5vw;
       color: #f2a679;
@@ -292,6 +294,11 @@ video {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    & video {
+      width: 100%;
+      height: 100%;
+      //object-fit: cover;
     }
   }
 }
