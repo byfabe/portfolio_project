@@ -31,15 +31,24 @@
                   <span class="portfolio">Développeur web</span>
                 </div>
               </div>
+
               <div class="presentation-back">
-                <a
-                  href="https://www.rivetportfolio.ovh/CV_Fabien_Rivet.pdf"
-                  download="CV_Fabien_Rivet.pdf"
-                  ><img src="../assets/cv2.png" alt="" class="cv-icon"
-                /></a>
-                <a href="mailto:byfabe@gmail.com" target="_blank"
-                  ><img src="../assets/email.png" alt="" class="mail-icon"
-                /></a>
+                <Popper content="CV" hover="true" placement="right">
+                  <a
+                    href="https://www.rivetportfolio.ovh/CV_Fabien_Rivet.pdf"
+                    download="CV_Fabien_Rivet.pdf"
+                    ><img src="../assets/cv2.png" alt="" class="icon" /></a
+                ></Popper>
+                <Popper content="GitHub" hover="true" placement="right">
+                  <a
+                    href="https://github.com/byfabe?tab=repositories"
+                    target="_blank"
+                    ><img src="../assets/github.png" alt="" class="icon" /></a
+                ></Popper>
+                <Popper content="Email" hover="true" placement="right">
+                  <a href="mailto:byfabe@gmail.com" target="_blank"
+                    ><img src="../assets/email.png" alt="" class="icon" /></a
+                ></Popper>
               </div>
             </div>
           </div>
@@ -48,8 +57,9 @@
           <div class="card-wrapper" v-for="project in projects" :key="project">
             <div class="card">
               <div class="card-front">
-                <h2 :class="project.class">{{ project.title }}</h2>
-                <p>{{ project.description }}</p>
+                <h2>{{ project.title }}</h2>
+                <p v-html="project.description"></p>
+                <p :class="project.class" v-html="project.description2"></p>
               </div>
               <div class="card-back">
                 <a :href="project.link" target="_blank">
@@ -79,10 +89,29 @@
 </template>
 
 <script>
+import Popper from "vue3-popper";
 export default {
+  components: {
+    Popper,
+  },
   data() {
     return {
       projects: [
+        {
+          title: "Marvalak",
+          description: "Histoire interactive avec Vue.js. (démo)",
+          link: "https://marvalak.netlify.app/",
+          source: "marvalak.jpg",
+        },
+        {
+          title: "Symbiosis",
+          description:
+            "Site web personnel (version développement) entièrement éditable.",
+            description2:  "user: admin // password: admin",
+          link: "https://symbiosisproject.netlify.app/",
+          source: "symbiosis.mp4",
+          class: "description"
+        },
         {
           title: "youmee.",
           description: "Chat avec socket.io, node.js et vue.js.",
@@ -97,17 +126,9 @@ export default {
         },
         {
           title: "Honfleur",
-          description: "Résidence le phare avec slideshow draggable.",
+          description: "Site vitrine avec slideshow draggable.",
           link: "https://objective-poincare-859034.netlify.app/",
           source: "honfleur.mp4",
-        },
-        {
-          title: "Projets OpenClassRooms",
-          description:
-            "Réalisations effectuées durant ma formation avec OpenClassRooms.",
-          link: "https://github.com/Zheyn",
-          source: "githubOC.jpg",
-          class: "oc-title",
         },
       ],
     };
@@ -129,7 +150,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .container-window {
   position: absolute;
   display: flex;
@@ -188,16 +209,18 @@ export default {
         flex-direction: column;
         background: #f25252;
         transform: rotateY(180deg);
-        & .mail-icon {
-          width: 11vw;
-          transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
-          &:hover {
-            transform: scale(1.2);
-            transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
-          }
+        & .popper {
+          background: #f2a679;
+          border: 2px solid rgba(0, 0, 0, 0.753);
+          border-radius: 5px;
+          padding: 2%;
+          color: rgb(37, 37, 37);
+          font-family: "Righteous", cursive;
+          font-size: 1vw;
+          transition: opacity 0.7s cubic-bezier(0.86, 0, 0.07, 1);
         }
-        & .cv-icon {
-          width: 11vw;
+        & .icon {
+          width: 10vw;
           transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
           &:hover {
             transform: scale(1.2);
@@ -235,9 +258,11 @@ export default {
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 30px;
   width: 60%;
+  padding: 3px;
+  overflow-y: scroll;
   & .card-wrapper {
     position: relative;
-    height: 100%;
+    height: 30vh;
     min-height: 50%;
     perspective: 2000px;
     perspective-origin: top;
@@ -274,6 +299,9 @@ export default {
       color: #f2a679;
       margin-bottom: 2%;
     }
+    & .description {
+      font-weight: bold;
+    }
     & .oc-title {
       font-size: clamp(25px, 2vw, 50px);
       text-align: center;
@@ -293,7 +321,7 @@ export default {
     & img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
     & video {
       width: 100%;
@@ -431,9 +459,14 @@ export default {
         span {
           font-size: clamp(28px, 2.8vw, 50px);
         }
+        & .presentation-back {
+          display: flex;
+          flex-direction: row;
+        }
       }
     }
   }
+
   .card-container {
     display: flex;
     flex-direction: column;
@@ -461,6 +494,22 @@ export default {
   }
   .card-container {
     width: 80%;
+  }
+}
+@media screen and (max-width: 425px) {
+  .container-window {
+    & .window {
+      & .window-left {
+        & .presentation-back {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+    }
+  }
+  :deep(.popper) {
+    border: 1px solid rgba(0, 0, 0, 0.753);
+    font-size: 1.2vw;
   }
 }
 </style>
